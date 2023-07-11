@@ -36,6 +36,6 @@ class DocHandler:
     def split_embed_doc(self) -> None:
         split_docs = self.split_doc()
         config.vectorstore.add_texts(
-            texts=(split_doc.page_content for split_doc in split_docs),
+            texts=[split_doc.page_content for split_doc in split_docs],
             namespace=self.doc_name,
         )
