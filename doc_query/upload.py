@@ -1,4 +1,4 @@
-from app_config import config
+from doc_query.app_config import config
 import streamlit as st
 
 

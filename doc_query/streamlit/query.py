@@ -1,5 +1,4 @@
-from requests import options
-from pinecone_utils import index
+from doc_query.pinecone_utils import index
 import streamlit as st
 from doc_query.query import Query
 

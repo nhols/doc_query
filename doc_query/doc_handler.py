@@ -4,7 +4,7 @@ from langchain.document_loaders.base import BaseLoader
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-from app_config import config
+from doc_query.app_config import config
 
 
 class DocHandler:
