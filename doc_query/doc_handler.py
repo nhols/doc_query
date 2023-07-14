@@ -30,7 +30,7 @@ class DocHandler:
         return self.loader(self.filename).load()
 
     def split_doc(self) -> list[Document]:
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=50)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
         return text_splitter.split_documents(self.doc)
 
     def split_embed_doc(self) -> None:

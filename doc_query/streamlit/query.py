@@ -5,18 +5,24 @@ from doc_query.query import Query
 
 def query_form() -> None:
     st.title("Query a document")
-    with st.form(key="query_form"):
-        doc_name = doc_selection()
-        query = query_input()
-        query_submitted = st.form_submit_button(label="Query")
+    doc_selection()
+    query = query_input()
+    query_submitted = st.button(label="Query")
     if query_submitted:
+        doc_name: str = st.session_state.selected_doc
         handle_query(query=query, doc_name=doc_name)
 
 
-def doc_selection() -> str:
+def doc_selection() -> None:
     doc_names = list(index.describe_index_stats()["namespaces"].keys())
-    doc_name = st.selectbox("Select a document to query", options=doc_names)
-    return doc_name
+    current_selection = st.session_state.get("selected_doc", doc_names[0])
+
+    st.selectbox(
+        "Select a document to query",
+        options=doc_names,
+        key="selected_doc",
+        index=doc_names.index(current_selection),
+    )
 
 
 def query_input() -> None:
@@ -24,10 +30,18 @@ def query_input() -> None:
     return query
 
 
+def delete_button() -> None:
+    st.button(
+        label="Delete document",
+        on_click=index.delete(delete_all=True, namespace=st.session_state.selected_doc),
+        type="primary",
+    )
+
+
 def handle_query(query: str, doc_name: str):
     query_ = Query(query=query, namespace=doc_name)
     st.subheader("Answer")
-    st.text(query_.answer)
+    st.markdown(query_.answer)
     with st.expander("Show reference documents"):
         st.subheader("Reference Documents")
         for n, doc in enumerate(query_.relevant_docs, start=1):
