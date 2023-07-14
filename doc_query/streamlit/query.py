@@ -15,6 +15,7 @@ def query_form() -> None:
 
 def doc_selection() -> None:
     doc_names = list(index.describe_index_stats()["namespaces"].keys())
+    doc_names.sort()
     current_selection = st.session_state.get("selected_doc", doc_names[0])
 
     st.selectbox(
