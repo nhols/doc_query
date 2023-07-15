@@ -12,6 +12,8 @@ class URLHandler:
 
     def _load_text_from_url(self) -> str:
         response = requests.get(self.url)
+        if not response.ok:
+            raise Exception(f"Could not load url {self.url}")
         return "\n".join(BeautifulSoup(response.content, "html.parser").stripped_strings)
 
     def split_text(self) -> list[str]:
